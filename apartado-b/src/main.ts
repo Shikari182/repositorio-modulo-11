@@ -1,10 +1,23 @@
 
-const htmlInput = document.getElementById('htmlInput') as HTMLTextAreaElement;
-const extractButton = document.getElementById('extractButton') as HTMLButtonElement;
-const resultsContainer = document.getElementById('results') as HTMLDivElement;
+const htmlInput = document.getElementById('htmlInput');
+const extractButton = document.getElementById('extractButton');
+const resultsContainer = document.getElementById('results');
+
+if (!(htmlInput instanceof HTMLTextAreaElement)) {
+    throw new Error('Elemento htmlInput no encontrado o no es un textarea');
+}
+
+if (!(extractButton instanceof HTMLButtonElement)) {
+    throw new Error('Elemento extractButton no encontrado o no es un botón');
+}
+
+if (!(resultsContainer instanceof HTMLDivElement)) {
+    throw new Error('Elemento resultsContainer no encontrado o no es un div');
+}
 
 
 const imgRegex = /<img\s+?(?:[^>]*?\s+?)?src\s*?=\s*?(["'])(.*?)\1/gi;
+
 
 const extractImageLinks = (html: string): string[] => {
     const matches = Array.from(html.matchAll(imgRegex));
@@ -20,7 +33,6 @@ const displayResults = (links: string[]): void => {
         }).join('')
         : '<p class="no-results">No se encontraron enlaces</p>';
 };
-
 
 extractButton.addEventListener('click', () => {
     if (!htmlInput.value.trim()) {

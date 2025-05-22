@@ -5,9 +5,14 @@ import {
     getBankName 
 } from './ibanUtils';
 
-// Elementos del DOM
+// Verificación de tipos segura
+const ibanInputElement = document.getElementById('ibanInput');
+if (!(ibanInputElement instanceof HTMLInputElement)) {
+    throw new Error('Elemento ibanInput no encontrado o no es un input');
+}
+
 const elements = {
-    ibanInput: document.getElementById('ibanInput') as HTMLInputElement,
+    ibanInput: ibanInputElement,
     validateButton: document.getElementById('validateButton')!,
     resultContainer: document.getElementById('resultContainer')!,
     errorMessage: document.getElementById('errorMessage')!,
@@ -17,24 +22,19 @@ const elements = {
     accountNumber: document.getElementById('accountNumber')!,
 };
 
-// Manejador principal
 const handleValidation = () => {
     const rawIban = elements.ibanInput.value.trim();
     
     try {
-        // Resetear estado
         elements.errorMessage.classList.add('hidden');
         elements.resultContainer.classList.add('hidden');
 
-        // Validaciones
         if (!rawIban) throw new Error('Por favor introduce un IBAN');
         if (!isWellFormatted(rawIban)) throw new Error('Formato IBAN incorrecto');
         if (!isValidIban(rawIban)) throw new Error('IBAN inválido');
 
-        // Extraer información
         const ibanInfo = extractIbanInfo(rawIban);
         
-        // Actualizar UI
         elements.bankName.textContent = getBankName(ibanInfo.bankCode);
         elements.branchCode.textContent = ibanInfo.branchCode;
         elements.controlDigit.textContent = ibanInfo.branchControlDigit;
@@ -49,7 +49,6 @@ const handleValidation = () => {
     }
 };
 
-// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     elements.validateButton.addEventListener('click', handleValidation);
     elements.ibanInput.addEventListener('keypress', (e) => {
