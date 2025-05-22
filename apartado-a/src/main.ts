@@ -5,7 +5,6 @@ import {
     getBankName 
 } from './ibanUtils';
 
-// Verificación de tipos segura
 const ibanInputElement = document.getElementById('ibanInput');
 if (!(ibanInputElement instanceof HTMLInputElement)) {
     throw new Error('Elemento ibanInput no encontrado o no es un input');
