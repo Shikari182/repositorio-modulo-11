@@ -5,6 +5,12 @@ import {
     getBankName 
 } from './ibanUtils';
 
+import { cargarAplicacion } from './ibanUI';
+
+document.addEventListener('DOMContentLoaded', () => {
+    cargarAplicacion();
+});
+
 const ibanInputElement = document.getElementById('ibanInput');
 if (!(ibanInputElement instanceof HTMLInputElement)) {
     throw new Error('Elemento ibanInput no encontrado o no es un input');
